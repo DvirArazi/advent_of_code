@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:advent_of_code/Utils/point.dart';
+import 'package:advent_of_code/utils/int_2d.dart';
 
 void run() async {
   var current = Int2D(0, 0);
@@ -14,15 +14,15 @@ void run() async {
     for (final rune in data.runes) {
       final char = String.fromCharCode(rune);
       switch (char) {
-        case '^': current.y--; break;
-        case '<': current.x--; break;
-        case '>': current.x++; break;
-        case 'v': current.y++; break;
+        case '^': current.b--; break;
+        case '<': current.a--; break;
+        case '>': current.a++; break;
+        case 'v': current.b++; break;
       }
 
       if (visited.any((point) => 
-        point.x == current.x && 
-        point.y == current.y
+        point.a == current.a && 
+        point.b == current.b
       )) {
         continue;
       }

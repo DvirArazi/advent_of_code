@@ -9,6 +9,13 @@ import 'package:advent_of_code/2015/4/b.dart' as aoc_2015_4_b;
 import 'package:advent_of_code/2015/5/a.dart' as aoc_2015_5_a;
 import 'package:advent_of_code/2015/5/b.dart' as aoc_2015_5_b;
 import 'package:advent_of_code/2015/6/a.dart' as aoc_2015_6_a;
+import 'package:advent_of_code/2015/6/b.dart' as aoc_2015_6_b;
+import 'package:advent_of_code/2015/7/a.dart' as aoc_2015_7_a;
+import 'package:advent_of_code/2015/7/b.dart' as aoc_2015_7_b;
+import 'package:advent_of_code/2015/8/a.dart' as aoc_2015_8_a;
+import 'package:advent_of_code/2015/8/b.dart' as aoc_2015_8_b;
+import 'package:advent_of_code/2015/9/a.dart' as aoc_2015_9_a;
+import 'package:advent_of_code/2015/9/b.dart' as aoc_2015_9_b;
 
 void main(List<String> arguments) {
   final year = arguments[0];
@@ -39,7 +46,20 @@ void main(List<String> arguments) {
       },
       '6': {
         'a': aoc_2015_6_a.run,
+        'b': aoc_2015_6_b.run,
       },
+      '7': {
+        'a': aoc_2015_7_a.run,
+        'b': aoc_2015_7_b.run,
+      },
+      '8': {
+        'a': aoc_2015_8_a.run,
+        'b': aoc_2015_8_b.run,
+      },
+      '9': {
+        'a': aoc_2015_9_a.run,
+        'b': aoc_2015_9_b.run,
+      }
     },
   }[year]?[day]?[half];
 
