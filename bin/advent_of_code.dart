@@ -20,6 +20,8 @@ import 'package:advent_of_code/2015/10/a.dart' as aoc_2015_10_a;
 import 'package:advent_of_code/2015/10/b.dart' as aoc_2015_10_b;
 import 'package:advent_of_code/2015/11/a.dart' as aoc_2015_11_a;
 import 'package:advent_of_code/2015/11/b.dart' as aoc_2015_11_b;
+import 'package:advent_of_code/2015/12/a.dart' as aoc_2015_12_a;
+import 'package:advent_of_code/2015/12/b.dart' as aoc_2015_12_b;
 
 void main(List<String> arguments) {
   final year = arguments[0];
@@ -71,6 +73,10 @@ void main(List<String> arguments) {
       '11': {
         'a': aoc_2015_11_a.run,
         'b': aoc_2015_11_b.run
+      },
+      '12': {
+        'a': aoc_2015_12_a.run,
+        'b': aoc_2015_12_b.run,
       }
     },
   }[year]?[day]?[half];

@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
+library utils;
+
 import 'dart:math';
 
 import 'package:advent_of_code/utils/string_ext.dart';
