@@ -11,4 +11,12 @@ extension ListExt<T> on List<T> {
 
     return null;
   }
+
+   int? findI(bool Function(T) condition) {
+    for (var i = 0; i < length; i++) {
+      if (condition(this[i])) return i;
+    }
+
+    return null;
+  }
 }

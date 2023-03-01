@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:advent_of_code/2015/9/utils.dart';
+import 'package:advent_of_code/utils/funcs.dart';
 
 void run() {
   final lines = File('lib/2015/9/input.txt').readAsLinesSync();
@@ -22,7 +23,7 @@ void run() {
     distances[dI.a][dI.b] = distance;
   }
 
-  final routes = getRoutes(cities.length);
+  final routes = getPermutations(cities.length);
 
   var distanceLongest = getDistance(distances, routes[0]);
 
