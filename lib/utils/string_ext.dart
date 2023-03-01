@@ -9,4 +9,8 @@ extension StringExt on String {
   int code() {
     return codeUnitAt(0);
   }
+
+  String tailCut(int count) {
+    return substring(0, length - count);
+  }
 }

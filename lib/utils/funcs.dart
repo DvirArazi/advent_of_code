@@ -13,3 +13,13 @@ List<List<int>> getPermutations(int itemsC) {
     ).toList()
   ).combine();
 }
+
+int getMax(List<int> items) {
+  var max = items[0];
+
+  for (final item in items.sublist(1)) {
+    if (max < item) max = item;
+  }
+
+  return max;
+}
