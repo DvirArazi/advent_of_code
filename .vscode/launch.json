@@ -9,7 +9,7 @@
       "name": "advent_of_code",
       "request": "launch",
       "type": "dart",
-      "args": ["2015", "15", "a"],
+      "args": ["2015", "16", "a"],
     }
   ]
 }

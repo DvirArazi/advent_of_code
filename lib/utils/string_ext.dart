@@ -10,7 +10,7 @@ extension StringExt on String {
     return codeUnitAt(0);
   }
 
-  String tailCut(int count) {
+  String cutTail(int count) {
     return substring(0, length - count);
   }
 }

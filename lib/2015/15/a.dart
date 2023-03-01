@@ -10,10 +10,10 @@ void run() async {
     .map((line) {
       final parts = line.split(' ');
       return [
-        int.tryParse(parts[2].tailCut(1))!,
-        int.tryParse(parts[4].tailCut(1))!,
-        int.tryParse(parts[6].tailCut(1))!,
-        int.tryParse(parts[8].tailCut(1))!,
+        int.tryParse(parts[2].cutTail(1))!,
+        int.tryParse(parts[4].cutTail(1))!,
+        int.tryParse(parts[6].cutTail(1))!,
+        int.tryParse(parts[8].cutTail(1))!,
       ];
     }).toList();
   

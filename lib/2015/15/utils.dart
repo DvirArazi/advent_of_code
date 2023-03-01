@@ -12,10 +12,6 @@ List<List<int>> getMixes(int ingredientsC, int spoonsC) {
   ).combine();
 }
 
-// List<List<int>> getMixesWith500Calories(int ingredientsC, int spoonsC) {
-//   get
-// }
-
 int getMixScore(List<List<int>> ingredients, List<int> mix) {
   var propsSum = List.generate(4, (_) => 0);
   for (var propI = 0; propI < propsSum.length; propI++) {
