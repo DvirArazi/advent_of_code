@@ -1,4 +1,16 @@
+import 'dart:io';
+
+import 'package:advent_of_code/utils/list_ext.dart';
 import 'package:advent_of_code/utils/list_of_list_ext.dart';
+
+String getPath() {
+  return Platform
+    .script
+    .toString()
+    .split('/')
+    .sub(3, -1)
+    .join('/');
+}
 
 List<List<int>> getPermutations(int itemsC) {
   if (itemsC == 1) return [[0]];

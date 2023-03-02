@@ -12,11 +12,18 @@ extension ListExt<T> on List<T> {
     return null;
   }
 
-   int? findI(bool Function(T) condition) {
+  int? findI(bool Function(T) condition) {
     for (var i = 0; i < length; i++) {
       if (condition(this[i])) return i;
     }
 
     return null;
+  }
+
+  List<T> sub(int start, int end) {
+    return sublist(
+      start,
+      end >= 0 ? end : length + end
+    );
   }
 }
