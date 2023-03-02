@@ -13,4 +13,8 @@ extension StringExt on String {
   String cutTail(int count) {
     return substring(0, length - count);
   }
+
+  List<String> get chars {
+    return runes.map((rune) => String.fromCharCode(rune)).toList();
+  }
 }
