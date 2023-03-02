@@ -20,10 +20,15 @@ extension ListExt<T> on List<T> {
     return null;
   }
 
-  List<T> sub(int start, int end) {
+  List<T> sub(int start, [int? end]) {
     return sublist(
       start,
-      end >= 0 ? end : length + end
+      end == null ? length :
+      end >= 0 ? end : (length + end)
     );
+  }
+
+  List<E> mapWithIndex<E>(E Function(T value, int i) toElement) {
+    return List.generate(length, (i) => toElement(this[i], i));
   }
 }
