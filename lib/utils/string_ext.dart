@@ -17,4 +17,12 @@ extension StringExt on String {
   List<String> get chars {
     return runes.map((rune) => String.fromCharCode(rune)).toList();
   }
+
+  String sub(int start, [int? end]) {
+    return substring(
+      start,
+      end == null ? length :
+      end >= 0 ? end : (length + end)
+    );
+  }
 }
