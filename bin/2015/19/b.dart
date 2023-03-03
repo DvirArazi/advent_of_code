@@ -1,20 +1,19 @@
 import 'dart:io';
 
 import 'package:advent_of_code/utils/funcs.dart';
-import 'package:advent_of_code/utils/list_of_int_ext.dart';
 import 'package:advent_of_code/utils/string_ext.dart';
 
 import 'tools.dart';
 
 void main() {
-  final parts = File('${getPath()}/test2_input.txt')
+  final parts = File('${getPath()}/input.txt')
     .readAsStringSync()
     .split('\n\n');
 
   final changes = getChanges(parts[0].split('\n'));
   final medicine = parts[1].split('\n')[0];
 
-  print(getStepsMinCToMedicine(changes, 'HOH'));
+  print(getStepsMinCToMedicine(changes, medicine));
 }
 
 Map<int, List<Change>> getChanges(List<String> lines) {
@@ -32,14 +31,11 @@ Map<int, List<Change>> getChanges(List<String> lines) {
   return changes;
 }
 
-int? getStepsMinCToMedicine(Map<int, List<Change>> changes, String medicine) {
-  final stepsOptions = <int>[];
-
+int getStepsMinCToMedicine(Map<int, List<Change>> changes, String medicine) {
   final groupFit = changes[medicine.length];
   if (groupFit != null) {
     for (final change in groupFit) {
-      if (medicine == change.after && change.before == 'e')
-        return 1;
+      if (medicine == change.after && change.before == 'e') return 1;
     }
   }
 
@@ -47,17 +43,16 @@ int? getStepsMinCToMedicine(Map<int, List<Change>> changes, String medicine) {
     for (final change in group.value.where((change) => change.before != 'e')) {
       for (var i = 0; i < medicine.length - group.key + 1; i++) {
         if (medicine.sub(i, i + group.key) == change.after) {
-          final stepsMinC = getStepsMinCToMedicine(
+          return getStepsMinCToMedicine(
             changes,
             medicine.sub(0, i) +
             change.before +
             medicine.sub(i + group.key)
           );
-          if (stepsMinC != null) stepsOptions.add(stepsMinC);
         }
       }
     }
   }
 
-  return stepsOptions.isEmpty ? null : stepsOptions.min + 1;
+  throw Exception();
 }
