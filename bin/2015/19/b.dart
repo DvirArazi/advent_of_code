@@ -48,7 +48,7 @@ int getStepsMinCToMedicine(Map<int, List<Change>> changes, String medicine) {
             medicine.sub(0, i) +
             change.before +
             medicine.sub(i + group.key)
-          );
+          ) + 1;
         }
       }
     }
