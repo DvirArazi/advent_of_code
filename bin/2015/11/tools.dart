@@ -101,7 +101,7 @@ String getPasswordNext(String password) {
 String? getCharNext(String char) {
   if (char == 'z') return null;
 
-  return String.fromCharCode(char.code() + 1);
+  return String.fromCharCode(char.code + 1);
 }
 
 String? getPairNext(String chars) {
@@ -115,7 +115,7 @@ String? getPairNext(String chars) {
     return charNext + charNext;
   }
 
-  return a.code() > b.code() ? a + a : b + b;
+  return a.code > b.code ? a + a : b + b;
 }
 
 String getSequenceNext(String sequence) {
@@ -136,9 +136,9 @@ String? getTripletNext(String chars) {
   final a = chars[0];
   final b = chars[1];
   final c = chars[2];
-  final ac = a.code();
-  final bc = b.code();
-  final cc = c.code();
+  final ac = a.code;
+  final bc = b.code;
+  final cc = c.code;
 
   final charMax = String.fromCharCode(max(ac, max(bc, cc)));
   final charMaxNext = getCharNext(charMax);

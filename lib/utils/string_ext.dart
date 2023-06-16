@@ -6,7 +6,7 @@ extension StringExt on String {
       substring(index+1);
   }
 
-  int code() {
+  int get code {
     return codeUnitAt(0);
   }
 
