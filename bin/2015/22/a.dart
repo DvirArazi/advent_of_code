@@ -13,40 +13,41 @@ const spells = [
 void main() {
   final lines = File('${getPath()}/input.txt').readAsLinesSync();
 
-  final playerHp = 50;
-  final playerDamage = 500;
-
   final bossHp = int.tryParse(lines[0].split(' ')[2])!;
   final bossDamage = int.tryParse(lines[1].split(' ')[1])!;
+
+  // print(getMpSpentMin(State(50, 500, 0, bossHp, bossDamage, [], 0)));
+  print(getMpSpentMin(State(10, 250, 0, 13, 8, [], 0)));
 }
 
-int? bla(State state) {
-  
+(int?, List<Spell>) getMpSpentMin(State state) {
+  (int?, List<Spell>) inner(State state, Spell spell, List<Spell> history) {
+    final stateNew = state.copy();
+    stateNew.castSpell(spell);
+    stateNew.tick();
+    if (stateNew.bossHp <= 0) return (stateNew.mpSpent, );
+    stateNew.bossAttack();
+    if (stateNew.playerHp <= 0) return null;
+    stateNew.tick();
+    if (stateNew.bossHp <= 0) return stateNew.mpSpent;
 
-  List<State> options = []; 
-
-  for (final spell in spells) {
-    if (spell.cost > state.playerMp) continue;
-
-    final stateCrnt = cycle(state, spell);
-
-    if (stateCrnt.playerHp <= 0) continue;
-
-    options.add(stateCrnt);
+    return getMpSpentMin(stateNew);
   }
 
   int? manaSpentMin;
 
-  for (final option in options) {
-    final manaSpentCrnt = bla(option);
+  for (final spell in spells) {
+    if (spell.cost > state.playerMp) continue;
+
+    final manaSpentCrnt = inner(state, spell);
+
     if (
-      manaSpentMin == null ||
-      manaSpentCrnt != null && manaSpentMin > manaSpentCrnt
+      manaSpentCrnt != null && 
+      (manaSpentMin == null || manaSpentMin > manaSpentCrnt)
     ) {
       manaSpentMin = manaSpentCrnt;
     }
   }
-
 
   return manaSpentMin;
 }
@@ -90,14 +91,13 @@ class State {
   int playerHp;
   int playerMp;
   int playerArmor;
-  int playerDamage;
   int bossHp;
   int bossDamage;
   List<Action> actions;
   int mpSpent;
 
   State(
-    this.playerHp, this.playerMp, this.playerArmor, this.playerDamage,
+    this.playerHp, this.playerMp, this.playerArmor,
     this.bossHp, this.bossDamage, this.actions, this.mpSpent
   );
 
@@ -133,7 +133,7 @@ class State {
   }
 
   State copy() => State(
-    playerHp, playerMp, playerArmor, playerDamage, bossHp, bossDamage, actions,
+    playerHp, playerMp, playerArmor, bossHp, bossDamage, actions,
     mpSpent
   );
 }
