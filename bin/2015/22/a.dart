@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:advent_of_code/utils/funcs.dart';
 
 const spells = [
-  Spell(53, [Action(Effect.damage, 4, 1)]),
-  Spell(73, [Action(Effect.damage, 2, 1), Action(Effect.heal, 2, 1)]),
-  Spell(113, [Action(Effect.armor, 7, 6)]),
-  Spell(173, [Action(Effect.damage, 3, 6)]),
-  Spell(229, [Action(Effect.recharge, 101, 5)]),
+  Spell(53, [Effect(EffectType.damage, 4, 1)]),
+  Spell(73, [Effect(EffectType.damage, 2, 1), Effect(EffectType.heal, 2, 1)]),
+  Spell(113, [Effect(EffectType.armor, 7, 6)]),
+  Spell(173, [Effect(EffectType.damage, 3, 6)]),
+  Spell(229, [Effect(EffectType.recharge, 101, 5)]),
 ];
 
 void main() {
@@ -16,34 +16,34 @@ void main() {
   final bossHp = int.tryParse(lines[0].split(' ')[2])!;
   final bossDamage = int.tryParse(lines[1].split(' ')[1])!;
 
-  // print(getMpSpentMin(State(50, 500, 0, bossHp, bossDamage, [], 0)));
-  print(getMpSpentMin(State(10, 250, 0, 13, 8, [], 0)));
+  // print(getMpSpentMin(State(50, 500, 0, bossHp, bossDamage, [], 0), []));
+  print(getMpSpentMin(State(10, 250, 0, 14, 8, [], 0), []));
 }
 
-(int?, List<Spell>) getMpSpentMin(State state) {
-  (int?, List<Spell>) inner(State state, Spell spell, List<Spell> history) {
+(int, List<State>)? getMpSpentMin(State state, List<State> history) {
+  (int, List<State>)? inner(State state, Spell spell, List<State> history) {
     final stateNew = state.copy();
     stateNew.castSpell(spell);
-    stateNew.tick();
-    if (stateNew.bossHp <= 0) return (stateNew.mpSpent, );
+    stateNew.applyEffects();
+    if (stateNew.bossHp <= 0) return (stateNew.mpSpent, history + [stateNew]);
     stateNew.bossAttack();
     if (stateNew.playerHp <= 0) return null;
-    stateNew.tick();
-    if (stateNew.bossHp <= 0) return stateNew.mpSpent;
+    stateNew.applyEffects();
+    if (stateNew.bossHp <= 0) return (stateNew.mpSpent, history + [stateNew]);
 
-    return getMpSpentMin(stateNew);
+    return getMpSpentMin(stateNew, history + [stateNew]);
   }
 
-  int? manaSpentMin;
+  (int, List<State>)? manaSpentMin;
 
   for (final spell in spells) {
     if (spell.cost > state.playerMp) continue;
 
-    final manaSpentCrnt = inner(state, spell);
+    final manaSpentCrnt = inner(state, spell, history);
 
     if (
       manaSpentCrnt != null && 
-      (manaSpentMin == null || manaSpentMin > manaSpentCrnt)
+      (manaSpentMin == null || manaSpentMin.$1 > manaSpentCrnt.$1)
     ) {
       manaSpentMin = manaSpentCrnt;
     }
@@ -55,36 +55,46 @@ void main() {
 State cycle(State state, Spell spell) {
   final stateNew = state.copy();
 
-  stateNew.tick();
+  stateNew.applyEffects();
   stateNew.castSpell(spell);
 
-  stateNew.tick();
+  stateNew.applyEffects();
   if (stateNew.bossHp <= 0) return stateNew;
   stateNew.bossAttack();
 
   return stateNew;
 }
 
-enum Effect {
+enum EffectType {
   damage,
   armor,
   heal,
   recharge,
 }
 
-class Action {
-  final Effect effect;
+class Effect {
+  final EffectType type;
   final int quantity;
   final int timer;
 
-  const Action(this.effect, this.quantity, this.timer);
+  const Effect(this.type, this.quantity, this.timer);
+
+  @override
+  String toString() {
+    return '($type, $quantity, $timer)';
+  }
 }
 
 class Spell {
   final int cost;
-  final List<Action> actions;
+  final List<Effect> actions;
 
   const Spell(this.cost, this.actions);
+
+  @override
+  String toString() {
+    return '$cost';
+  }
 }
 
 class State {
@@ -93,7 +103,7 @@ class State {
   int playerArmor;
   int bossHp;
   int bossDamage;
-  List<Action> actions;
+  List<Effect> actions;
   int mpSpent;
 
   State(
@@ -101,19 +111,19 @@ class State {
     this.bossHp, this.bossDamage, this.actions, this.mpSpent
   );
 
-  void tick() {
+  void applyEffects() {
     for (final action in actions) {
-      switch (action.effect) {
-        case Effect.damage: bossHp -= action.quantity;
-        case Effect.armor: playerArmor = action.quantity;
-        case Effect.heal: playerHp += action.quantity;
-        case Effect.recharge: playerMp += action.quantity;
+      switch (action.type) {
+        case EffectType.damage: bossHp -= action.quantity; break;
+        case EffectType.armor: playerArmor = action.quantity; break;
+        case EffectType.heal: playerHp += action.quantity; break;
+        case EffectType.recharge: playerMp += action.quantity; break;
       }
     }
 
     actions = actions
       .map((action) =>
-        Action(action.effect, action.quantity, action.timer - 1)
+        Effect(action.type, action.quantity, action.timer - 1)
       )
       .where((action) => action.timer > 0)
       .toList();
@@ -133,7 +143,15 @@ class State {
   }
 
   State copy() => State(
-    playerHp, playerMp, playerArmor, bossHp, bossDamage, actions,
+    playerHp, playerMp, playerArmor, bossHp, bossDamage, List.from(actions),
     mpSpent
   );
+
+  @override
+  String toString() {
+    return
+      '\nPlayer: (HP: $playerHp, MP: $playerMp, Armor: $playerArmor)\n'
+      'Boss: (HP: $bossHp, Damage: $bossDamage)\n'
+      'Actions: $actions\n';
+  }
 }
