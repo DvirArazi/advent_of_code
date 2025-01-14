@@ -1,0 +1,28 @@
+[profile.dev]
+debug = true
+# opt-level = 0
+# debug-assertions = true
+# overflow-checks = true
+
+[package]
+name = "advent_of_code"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+[[bin]]
+name = "2024_1_a"
+path = "src/bin/2024/1/a.rs"
+
+[[bin]]
+name = "2024_1_b"
+path = "src/bin/2024/1/b.rs"
+
+[[bin]]
+name = "2024_2_a"
+path = "src/bin/2024/2/a.rs"
+
+[[bin]]
+name = "2024_2_b"
+path = "src/bin/2024/2/b.rs"
