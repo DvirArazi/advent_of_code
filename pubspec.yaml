@@ -1,0 +1,10 @@
+name: advent_of_code
+description: My Advent of Code solutions
+version: 0.0.1
+
+environment:
+  sdk: ^3.9.0
+  
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.6
