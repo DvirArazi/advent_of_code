@@ -15,7 +15,6 @@ Object solve(String input) {
     var add = line.dir
         ? psudoPos ~/ 100
         : (-psudoPos + (pos == 0 ? 0 : 100)) ~/ 100;
-    print('$pos\t${line.dir ? "+" : "-"}${line.stepsC}\t$psudoPos\t+$add');
     pos = psudoPos % 100;
 
     solution += add;
