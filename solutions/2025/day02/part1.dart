@@ -1,14 +1,14 @@
 import 'dart:math';
 
 Object solve(String input) {
-  final pairs = input.split(',').map((pairString) {
-    final pairList = pairString.split('-');
-    return (min: pairList[0], max: pairList[1]);
+  final ranges = input.split(',').map((rangeString) {
+    final rangeList = rangeString.split('-');
+    return (min: rangeList[0], max: rangeList[1]);
   }).toList();
 
   var sum = 0;
 
-  for (var pair in pairs) {
+  for (var pair in ranges) {
     final min = pair.min;
 
     var halfExp = (min.length / 2).ceil();
